@@ -1,47 +1,49 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as actionCreators from '../state/action-creators';
 import { connect } from 'react-redux';
 
 function Quiz(props) {
 
+  const [ disabled, setDisabled ] = useState(true);
+  
   useEffect(() => {
-    console.log('inside of useEffect');
     props.fetchQuiz();
   }, [])
 
-  const handleSelection = e => {
+  useEffect(() => {
+    // props.selectedAnswer ? setDisabled('false'): setDisabled('true')
+    console.log('this block should fire everytime You change selected answer')
+    if(props.selectedAnswer !== null){
+      setDisabled(false)
+    }
+    
+    // if(disabled === true){
+    //   setDisabled(false);
+    // }
+  }, [props.selectedAnswer])
 
+  const handleSubmit = () => {
+    console.log("props: ", props);
+  }
+
+  const handleSelection = e => {
     const answers = document.querySelectorAll('.answer');
 
-    console.log('answers: ', answers);
-    console.log('propssss: ', props);
+    const selectedAnswer = e.target.parentElement.classList.contains('answer1') ? 0 : 1;
+    
+    if(!answers[selectedAnswer].classList.contains('selected')){
+      for(let i = 0; i < answers.length; i++){
+        if(answers[i].classList.contains('selected')){
+          answers[i].classList.remove('selected');
+        }
+      }
 
-    if(answers[0].classList.contains('selected')){
-      props.selectAnswer(0);
+      answers[selectedAnswer].classList.add('selected');
+
+      console.log('about to call props.selectAnswer(selectedAnswer): ', selectedAnswer)
+      props.selectAnswer(selectedAnswer);
     }
-    if(answers[1].classList.contains('selected')){
-      props.selectAnswer(1);
-    }
-    // console.log('proooooooooo: ', props);
-    // if(e.target.parentElement.classList.contains('selected')){
-
-    // }else{
-    //   const answers = document.querySelectorAll('.answer')
-    //   for(let i = 0; i < answers.length; i++){
-    //     if(answers[i].classList.contains('selected')){
-    //       answers[i].classList.remove('selected');
-    //     }else{
-    //       answers[i].classList.add('selected');
-    //     }
-    //   }
-    // }
-
-    // if(answers[0].classList.contains('selected')){
-    //   props.selectAnswer(0)
-    // }
-    // if(answers[1].classList.contains('selected')){
-    //   props.selectAnswer(1);
-    // }
+    console.log('selectedAnswer: ', selectedAnswer)
   }
 
   return (
@@ -53,22 +55,23 @@ function Quiz(props) {
             <h2>What is a closure?</h2>
 
             <div id="quizAnswers">
-              <div className="answer selected">
+              <div className="answer1 answer">
                 A function
                 <button onClick={handleSelection}>
-                  {props.selectedAnswer && props.selectedAnswer === 0 ? 'SELECTED' : 'Select'}
+                  {console.log('props.selectedAnswer: ', props.selectedAnswer)}
+                  {props.selectedAnswer === 0 ? 'SELECTED' : 'Select'}
                 </button>
               </div>
 
-              <div className="answer">
+              <div className="answer2 answer">
                 An elephant
                 <button onClick={handleSelection}>
-                {props.selectedAnswer && props.selectedAnswer === 0 ? 'SELECTED' : 'Select'}
+                {props.selectedAnswer === 1 ? 'SELECTED' : 'Select'}
                 </button>
               </div>
             </div>
 
-            <button id="submitAnswerBtn">Submit answer</button>
+            <button disabled={disabled} onClick={handleSubmit} id="submitAnswerBtn">Submit answer</button>
           </>
         ) : 'Loading next quiz...'
       }

@@ -39,13 +39,10 @@ function Wheel(props) {
         returnValue = i;
       }
     }
-
-    console.log('about to return: ', returnValue);
     return returnValue;
   }
 
   const handleClockwiseClick = () => {
-    console.log('propsssss: ', props);
     props.moveClockwise(current());
   }
 
@@ -57,7 +54,6 @@ function Wheel(props) {
     handleClockwiseChange();
   },[props.wheel])
   
-  console.log('wheel props: ', props);
   return (
     <div id="wrapper">
       <div id="wheel">

@@ -11,7 +11,6 @@ export function moveCounterClockwise(currentlyActive) {
 }
 
 export function selectAnswer(whichAnswer) {
-  console.log('iniside of selectAnswer action creator');
   return({type: types.SET_SELECTED_ANSWER, payload: whichAnswer})
 }
 
@@ -22,8 +21,8 @@ export function setMessage() {
 export function setQuiz() {
 }
 
-export function inputChange() {
-
+export function inputChange(targetName, value) {
+  return({type: types.INPUT_CHANGE, payload: { targetName: targetName, value: value}})
 }
 
 export function resetForm() {
@@ -35,7 +34,6 @@ export function fetchQuiz() {
   return function (dispatch) {
     axios.get('http://localhost:9000/api/quiz/next')
     .then(resp => {
-      console.log('fetchQuiz resp: ', resp)
       dispatch({type: types.SET_QUIZ_INTO_STATE, payload: resp.data})
     })
     .catch(error => {

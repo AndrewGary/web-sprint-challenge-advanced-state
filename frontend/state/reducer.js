@@ -28,16 +28,14 @@ function quiz(state = initialQuizState, action) {
     case types.SET_QUIZ_INTO_STATE: 
         return action.payload
     default:
-      return null;
+      return state;
   }
-  return state
 }
 
 const initialSelectedAnswerState = null
 function selectedAnswer(state = initialSelectedAnswerState, action) {
   switch(action.type){
     case types.SET_SELECTED_ANSWER:
-      console.log('inside of set_Selected_Answer');
       return action.payload
     default:
       return state;
@@ -56,6 +54,17 @@ const initialFormState = {
   newFalseAnswer: '',
 }
 function form(state = initialFormState, action) {
+  switch(action.type){
+    case types.INPUT_CHANGE:
+      console.log('action.payload.targetName: ', action.payload.targetName)
+      return({
+        ...state,
+        [action.payload.targetName] : action.payload.value
+      })
+    default: state
+  }
+  
+  
   return state
 }
 

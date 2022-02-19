@@ -57,7 +57,7 @@ const testCogs = activeIdx => {
     }
   })
 }
-// text contentss
+// text contents
 const WhatIsClosure = 'What is a closure'
 const AFunction = 'A function plus its bindings'
 const AnElephant = 'Clearly some kind of elephant'

@@ -3,7 +3,7 @@ import * as actionCreators from '../state/action-creators';
 import { connect } from 'react-redux';
 
 function Quiz(props) {
-  const [ disabled, setDisabled ] = useState(true);
+  // const [ disabled, setDisabled ] = useState(true);
   
   useEffect(() => {
     if(!props.quiz){
@@ -11,19 +11,25 @@ function Quiz(props) {
     }
   }, [])
 
-  useEffect(() => {
-    if(props.selectedAnswer !== null){
-      setDisabled(false)
-    }
-  }, [props.selectedAnswer])
+  const disabled = () => {
+    return props.selectedAnswer === null
+  }
+
+  // useEffect(() => {
+  //   if(props.selectedAnswer !== null){
+  //     setDisabled(false)
+  //   }
+  // }, [props.selectedAnswer])
 
   const handleSubmit = e => {
     e.preventDefault();
+
     const answers = document.querySelectorAll('.answer');
+
+    const selectedAnswer = answers[0].classList.contains('selected') 
+    ? {quiz_id: props.quiz.quiz_id, answer_id: props.quiz.answers[0].answer_id} 
+    : {quiz_id: props.quiz.quiz_id, answer_id: props.quiz.answers[1].answer_id};
     
-    const selectedAnswer = answers[0].parentElement.classList.contains('answer1') ? {quiz_id: props.quiz.quiz_id, answer_id: props.quiz.answers[0].answer_id} : {quiz_id: props.quiz.quiz_id, answer_id: props.quiz.answers[1].answer_id};
-
-
     props.postAnswer(selectedAnswer);
     props.fetchQuiz();
   }
@@ -70,7 +76,7 @@ function Quiz(props) {
               </div>
             </div>
 
-            <button disabled={disabled} onClick={handleSubmit} id="submitAnswerBtn">Submit answer</button>
+            <button disabled={disabled()} onClick={handleSubmit} id="submitAnswerBtn">Submit answer</button>
           </>
         ) : 'Loading next quiz...'
       }

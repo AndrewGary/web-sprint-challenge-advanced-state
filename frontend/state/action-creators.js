@@ -36,6 +36,7 @@ export function fetchQuiz() {
     dispatch(setQuiz(null));
     axios.get('http://localhost:9000/api/quiz/next')
     .then(resp => {
+      console.log('quiz resp: ', resp);
       dispatch(setQuiz(resp.data))
     })
     .catch(error => {

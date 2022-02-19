@@ -45,7 +45,12 @@ function selectedAnswer(state = initialSelectedAnswerState, action) {
 
 const initialMessageState = ''
 function infoMessage(state = initialMessageState, action) {
-  return state
+  switch(action.type){
+    case types.SET_INFO_MESSAGE:
+      return action.payload
+    default: 
+      return state;
+  }
 }
 
 const initialFormState = {
@@ -56,10 +61,16 @@ const initialFormState = {
 function form(state = initialFormState, action) {
   switch(action.type){
     case types.INPUT_CHANGE:
-      console.log('action.payload.targetName: ', action.payload.targetName)
       return({
         ...state,
         [action.payload.targetName] : action.payload.value
+      })
+    case types.RESET_FORM:
+      return({
+        ...state,
+        newQuestion: '',
+        newFalseAnswer: '',
+        newTrueAnswer: ''
       })
     default: state
   }

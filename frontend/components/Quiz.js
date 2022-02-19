@@ -3,27 +3,30 @@ import * as actionCreators from '../state/action-creators';
 import { connect } from 'react-redux';
 
 function Quiz(props) {
-
+  console.log('quiz props: ', props);
   const [ disabled, setDisabled ] = useState(true);
   
   useEffect(() => {
+    if(!props.quiz){
     props.fetchQuiz();
+    }
   }, [])
 
   useEffect(() => {
-    // props.selectedAnswer ? setDisabled('false'): setDisabled('true')
-    console.log('this block should fire everytime You change selected answer')
     if(props.selectedAnswer !== null){
       setDisabled(false)
     }
-    
-    // if(disabled === true){
-    //   setDisabled(false);
-    // }
   }, [props.selectedAnswer])
 
-  const handleSubmit = () => {
-    console.log("props: ", props);
+  const handleSubmit = e => {
+    e.preventDefault();
+    const answers = document.querySelectorAll('.answer');
+    
+    const selectedAnswer = answers[0].parentElement.classList.contains('answer1') ? {quiz_id: props.quiz.quiz_id, answer_id: props.quiz.answers[0].answer_id} : {quiz_id: props.quiz.quiz_id, answer_id: props.quiz.answers[1].answer_id};
+
+
+    props.postAnswer(selectedAnswer);
+    props.fetchQuiz();
   }
 
   const handleSelection = e => {
@@ -40,10 +43,8 @@ function Quiz(props) {
 
       answers[selectedAnswer].classList.add('selected');
 
-      console.log('about to call props.selectAnswer(selectedAnswer): ', selectedAnswer)
       props.selectAnswer(selectedAnswer);
     }
-    console.log('selectedAnswer: ', selectedAnswer)
   }
 
   return (
@@ -52,19 +53,18 @@ function Quiz(props) {
         // quiz already in state? Let's use that, otherwise render "Loading next quiz..."
         props.quiz ? (
           <>
-            <h2>What is a closure?</h2>
-
+            <h2>{props.quiz.question}</h2>
+          
             <div id="quizAnswers">
               <div className="answer1 answer">
-                A function
+                {props.quiz.answers ? props.quiz.answers[0].text : null}
                 <button onClick={handleSelection}>
-                  {console.log('props.selectedAnswer: ', props.selectedAnswer)}
                   {props.selectedAnswer === 0 ? 'SELECTED' : 'Select'}
                 </button>
               </div>
 
               <div className="answer2 answer">
-                An elephant
+              {props.quiz.answers ? props.quiz.answers[1].text : null}
                 <button onClick={handleSelection}>
                 {props.selectedAnswer === 1 ? 'SELECTED' : 'Select'}
                 </button>

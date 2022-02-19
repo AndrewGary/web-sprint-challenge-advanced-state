@@ -3,6 +3,7 @@ import * as actionCreators from '../state/action-creators'
 import {connect} from 'react-redux'
 
 function Wheel(props) {
+  console.log('wheel props: ', props);
 
   const handleClockwiseChange = () => {
     const wheelArray = document.querySelectorAll('.cog');

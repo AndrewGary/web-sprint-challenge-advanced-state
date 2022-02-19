@@ -6,11 +6,11 @@ export function Form(props) {
 
   const [disabled, setDisabled] = useState(true);
 
-  console.log('sldkfjaljka props: ', props)
-
   useEffect(() => {
-    if(props.form.newFalseAnswer && props.form.newQuestion && newTrueAnswer){
+    if(props.form.newFalseAnswer.trim().length > 1 && props.form.newQuestion.trim().length > 1 && props.form.newTrueAnswer.trim().length > 1){
       setDisabled(false);
+    }else{
+      setDisabled(true);
     }
   }, [props.form])
 
@@ -20,6 +20,15 @@ export function Form(props) {
 
   const onSubmit = e => {
     e.preventDefault();
+    // props.setMessage(`Congrats: "${props.form.newQuestion}" is a great question!`)
+    props.postQuiz({
+      question_text: props.form.newQuestion,
+      true_answer_text: props.form.newTrueAnswer,
+      false_answer_text: props.form.newFalseAnswer
+    })
+
+    props.resetForm()
+    console.log('props after submitting: ', props)
   }
 
   return (

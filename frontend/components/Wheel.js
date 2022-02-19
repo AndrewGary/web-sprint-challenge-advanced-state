@@ -3,9 +3,8 @@ import * as actionCreators from '../state/action-creators'
 import {connect} from 'react-redux'
 
 function Wheel(props) {
-  console.log('wheel props: ', props);
 
-  const handleClockwiseChange = () => {
+  const handleChange = () => {
     const wheelArray = document.querySelectorAll('.cog');
 
     for(let i = 0; i < wheelArray.length; i++){
@@ -16,21 +15,8 @@ function Wheel(props) {
         wheelArray[i].classList.add('active');
       }
     }
-  }
-  
-  // useEffect(() => {
-    //   wheelArray.map(item => {
-      //     if(item.classList.contains('active')){
-        //       return item.classList.remove('active')
-        //     }else{
-          //       return item
-          //     }
-          //   })
-          
-          // }, [props.wheel])
-          
-          
-          //helper function, returns value of currently active div (0-5)
+  }             
+    //helper function, returns value of currently active div (0-5)
     const current = () => {
       const wheelArray = document.querySelectorAll('.cog');
       let returnValue = null;
@@ -52,7 +38,7 @@ function Wheel(props) {
   }
 
   useEffect(() => {
-    handleClockwiseChange();
+    handleChange();
   },[props.wheel])
   
   return (

@@ -3,7 +3,6 @@ import * as actionCreators from '../state/action-creators';
 import { connect } from 'react-redux';
 
 function Quiz(props) {
-  console.log('quiz props: ', props);
   const [ disabled, setDisabled ] = useState(true);
   
   useEffect(() => {

@@ -50,8 +50,6 @@ export function fetchQuiz() {
 export function postAnswer(answerObject) {
   return function (dispatch) {
 
-    console.log('answerObject: ', answerObject);
-
     axios.post('http://localhost:9000/api/quiz/answer', answerObject)
     .then(resp => {
       dispatch({type: types.SET_SELECTED_ANSWER, payload: null})
@@ -72,7 +70,6 @@ export function postQuiz(newQuiz) {
 
     axios.post('http://localhost:9000/api/quiz/new', newQuiz)
     .then(resp => {
-      console.log('postQuiz resp: ', resp);
       dispatch(setMessage(`Congrats: "${resp.data.question}" is a great question!`))
       dispatch(resetForm());
     })

@@ -20,7 +20,6 @@ export function Form(props) {
 
   const onSubmit = e => {
     e.preventDefault();
-    // props.setMessage(`Congrats: "${props.form.newQuestion}" is a great question!`)
     props.postQuiz({
       question_text: props.form.newQuestion,
       true_answer_text: props.form.newTrueAnswer,
@@ -28,7 +27,6 @@ export function Form(props) {
     })
 
     props.resetForm()
-    console.log('props after submitting: ', props)
   }
 
   return (
@@ -42,4 +40,4 @@ export function Form(props) {
   )
 }
 
-export default connect(st => st, actionCreators)(Form)
+export default connect(state => state, actionCreators)(Form)
